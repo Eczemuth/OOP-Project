@@ -13,7 +13,5 @@ TEMPLATE = Jinja2Templates("html")
 
 @app.get("/Inventory", response_class=HTMLResponse)
 async def inventory(request: Request):
-
     data_for_page = {"request" : request}
-
     return TEMPLATE.TemplateResponse("Inventory.html",data_for_page)
