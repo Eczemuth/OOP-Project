@@ -42,11 +42,10 @@ class ProductCatalog:
                 if len(products) >= n:
                     break
         return products
-
+    
     def get_recommend_product(self):
         all_products = []
         for key in self.__products_by_id:
             all_products.append(self.__products_by_id[key])
         all_products = all_products[::-1][0:5]
-
         return all_products
