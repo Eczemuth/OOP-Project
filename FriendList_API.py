@@ -13,7 +13,5 @@ TEMPLATE = Jinja2Templates("html")
 
 @app.get("/FriendList", response_class=HTMLResponse)
 async def friendList(request: Request):
-
     data_for_page = {"request" : request}
-
     return TEMPLATE.TemplateResponse("FriendList.html",data_for_page)
