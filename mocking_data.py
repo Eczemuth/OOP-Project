@@ -37,7 +37,7 @@ tribes_of_midgard = {
                 "Storage": "8 GB available space",
                 "Sound Card": "DirectX® Compatible"
             },
-            "pre_vid" : "https://cdn.cloudflare.steamstatic.com/steam/apps/570/ss_ad8eee787704745ccdecdfde3a5cd2733704898d.600x338.jpg?t=1678300512",
+            "pre_vid" : "https://cdn.akamai.steamstatic.com/steam/apps/256941087/movie480_vp9.webm?t=1681401199",
             "cover_image": "https://cdn.cloudflare.steamstatic.com/steam/apps/858820/header.jpg?t=1681224766",
             "lang_sup": ['English', 'French', 'Spanish-Spain', 'Dutch', 'Portuguese-Portugal', 'Russian', 'Ukrainian', 'Italian', 'German', 'Japanese', 'Korean', 'Polish', 'Portuguese-Brazil', 'SimplifiedChinese', 'Swedish', 'Thai', 'TraditionalChinese', 'Turkish', 'Afrikaans'],
             "ban_country" : None,

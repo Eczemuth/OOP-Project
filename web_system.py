@@ -9,7 +9,7 @@ from productCatalog import ProductCatalog
 class LoginStatus(Enum):
     EMAILNOTFOUND = "e-mail not found"
     PASSNOTCORRECT = "password incorrect"
-    NOPROBLEM = "login success"
+    SUCCES = "login success"
 
 class UserStatus(Enum):
     GUEST = 0
@@ -42,7 +42,7 @@ class System:
         self.__product_catalog.add_product(product)
 
     def get_product(self,prod_id):
-        return self.__product_catalog.get_product(prod_id)
+        return self.__product_catalog.get_product_by_id(prod_id)
 
     def get_discount_product(self, n = 10, discount = 0.1):
         return self.__product_catalog.get_discounted_product(n, discount)
@@ -96,15 +96,15 @@ class System:
     def login(self,email,password):
         if email not in self.__user_account:
             print("Email not found")
-            return LoginStatus.EMAILNOTFOUND
+            return LoginStatus.EMAILNOTFOUND, None
         elif password != self.__user_account[email]:
             print("Password incorrect")
-            return LoginStatus.PASSNOTCORRECT
+            return LoginStatus.PASSNOTCORRECT, None
 
         print("Login success")
         # since user ID is a hash using email then we can hash the email to get user instead of ID
-        self.__current_user = self.__user_by_id[IdGenerator.generate_id(email)]
-        return LoginStatus.NOPROBLEM
+        login_user = self.__user_by_id[IdGenerator.generate_id(email)]
+        return LoginStatus.SUCCES, login_user
 
     def password_available(self,pass1,pass2):
         # use regex to check password
@@ -130,7 +130,7 @@ class System:
 
         if search_id:  # if there is id to search
             try:
-                return [self.__user_by_id[search_id]]
+                return self.__user_by_id[search_id]
             except KeyError:
                 return []
         elif search_name:  # if there is name to search
@@ -146,9 +146,8 @@ class System:
 
     def search_product(self,search_name="",):
         if search_name != "":
-            found_product_name = process.extract(search_name, self.__product_catalog.keys())
-            found_product = [self.__product_catalog[product[0]] for product in found_product_name if product[1] > 55]
-
+            found_product_name = process.extract(search_name, self.__product_catalog.get_all_products()["by_name"].keys())
+            found_product = [self.__product_catalog.get_product_by_name(product[0]) for product in found_product_name if product[1] > 55]
             if found_product:
                 return found_product
         return []
