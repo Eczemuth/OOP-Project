@@ -1,5 +1,3 @@
-from utilities import *
-
 class ProductCatalog:
     def __init__(self):
         self.__products_by_id = {}
@@ -9,12 +7,10 @@ class ProductCatalog:
         return self.__products_by_id
 
     def add_product(self, product):
-        print(product, product.get_id())
         self.__products_by_id[product.get_id()] = product
         self.__products_by_name[product.get_name()] = product
 
-    def modify_product(self, new_info, product_id):
-        product = self.__products_by_id[product_id]
+    def modify_product(self, new_info, product):
         product.change_info(new_info)
     
     def delete_product(self, product):
@@ -42,10 +38,11 @@ class ProductCatalog:
                 if len(products) >= n:
                     break
         return products
-    
+
     def get_recommend_product(self):
         all_products = []
         for key in self.__products_by_id:
             all_products.append(self.__products_by_id[key])
         all_products = all_products[::-1][0:5]
+
         return all_products
