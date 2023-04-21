@@ -2,8 +2,7 @@ import re
 from User import User
 from fuzzywuzzy import process
 from enum import Enum
-from product import *
-from Utilities import IdGenerator
+from utilities import IdGenerator
 from productCatalog import ProductCatalog
 
 class LoginStatus(Enum):
@@ -35,6 +34,9 @@ class System:
     def get_current_user(self):
         return self.__current_user
 
+    def get_user_by_id(self, user_id):
+        return self.__user_by_id[user_id]
+
     def get_all_user(self):
         return self.__user_by_id
 
@@ -50,7 +52,7 @@ class System:
     def get_recommend_product(self):
         return self.__product_catalog.get_recommend_product()
 
-    def add_user(self,user):
+    def __add_user(self,user):
         self.__user_by_name[user.get_name()] = user
         self.__user_by_id[user.get_id()] = user
 
@@ -87,7 +89,7 @@ class System:
 
         # this will add user to self.user
         user = User(user_name, email, pass1)
-        self.add_user(user)
+        self.__add_user(user)
         self.__current_user = UserStatus.LOGEDIN
         print("Register success")
         print(user.get_name(),user.get_id())
@@ -104,6 +106,7 @@ class System:
         print("Login success")
         # since user ID is a hash using email then we can hash the email to get user instead of ID
         login_user = self.__user_by_id[IdGenerator.generate_id(email)]
+
         return LoginStatus.SUCCES, login_user
 
     def password_available(self,pass1,pass2):
@@ -128,6 +131,7 @@ class System:
         except KeyError:
             search_name = None
 
+        print("id",kwargs["search_id"])
         if search_id:  # if there is id to search
             try:
                 return self.__user_by_id[search_id]
@@ -155,8 +159,13 @@ class System:
     def view_profile(self,user_id):
         return self.__user_by_id[user_id].get_info()
 
-    def view_product(self,prood_id):
-        return self.__product_catalog[prood_id].get_info()
+    def view_product(self,prooduct_id):
+        return self.__product_catalog.get_product_by_id(prooduct_id)
 
-    def change_product_info(self,new_info):
-        self.__product_catalog[new_info["name"]].change_info(new_info)
+    def modify_product(self,new_info, product_id):
+        product = self.get_product(product_id)
+        self.__product_catalog.modify_product(new_info, product)
+
+    def add_to_cart(self, product, user):
+        user.add_to_cart(product)
+
