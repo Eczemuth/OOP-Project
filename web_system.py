@@ -2,11 +2,8 @@ import re
 from fuzzywuzzy import process
 from enum import Enum
 from utilities import IdGenerator
-# import things from module
-from module import productCatalog
-from module import user
-ProductCatalog = productCatalog.ProductCatalog
-User = user.User
+from module.productCatalog import ProductCatalog
+from module.user import User
 
 class LoginStatus(Enum):
     EMAILNOTFOUND = "e-mail not found"

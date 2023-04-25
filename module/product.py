@@ -1,5 +1,6 @@
 from utilities import IdGenerator
-from community import Rating
+from Community import Rating
+
 class Product:
     def __init__(self, info):
             self.__info = {

@@ -1,12 +1,8 @@
-from order import Order
-from shoppingCart import ShoppingCart
-from library import Library
-from chat import Chat
+from module.shoppingCart import ShoppingCart
 from utilities import IdGenerator
-# from factory import Factory
-
-import datetime
-
+from module.order import Order
+from module.library import Library
+from module.chat import Chat
 
 class User:
     def __init__(self, name, profile_picture=None, description=None, level=0):

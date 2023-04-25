@@ -1,4 +1,4 @@
-from product import Product
+from module.product import Product
 
 class Library:
     def __init__(self):
