@@ -1,5 +1,4 @@
 import datetime
-import json
 from utilities import IdGenerator
 
 class Post:

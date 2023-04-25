@@ -1,6 +1,3 @@
-from product import Product
-from User import User
-
 let_build_a_zoo = {
             "name": "Let's Build a Zoo",
             "price": 249.00,

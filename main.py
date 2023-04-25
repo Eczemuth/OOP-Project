@@ -5,6 +5,9 @@ from fastapi.responses import HTMLResponse, RedirectResponse
 from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
 from mocking_data import *
+from module import product
+
+Product = product.Product
 
 app = FastAPI()
 
