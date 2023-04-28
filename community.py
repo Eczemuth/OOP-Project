@@ -1,6 +1,7 @@
 import datetime
 from utilities import IdGenerator
 
+
 class Post:
     def __init__(self,poster,media):
         self.__id = IdGenerator.generate_id(id(self))
@@ -20,6 +21,7 @@ class Post:
 
         return info
 
+
 class Rating:
     def __init__(self) -> None:
         self.__thumbs_up_pic = ""
@@ -35,6 +37,7 @@ class Rating:
     
     def dis_rating(self):
         self.__bad_rating += 1
+
 
 class Comment:
     def __init__(self,comment) -> None:
@@ -52,6 +55,7 @@ class Comment:
     def get_replies(self):
         return self.__replies
 
+
 class Board:
     def __init__(self) -> None:
         self.__post = []
@@ -61,3 +65,4 @@ class Board:
 
     def get_post(self):
         return self.__post
+
