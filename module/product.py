@@ -1,5 +1,5 @@
 from utilities import IdGenerator
-from Community import Rating
+from community import Rating
 
 class Product:
     def __init__(self, info):
@@ -12,8 +12,6 @@ class Product:
             "pre_vid" : info["pre_vid"],
             "cover_image": info["cover_image"],
             "lang_sup": info["lang_sup"],
-            "ban_country": info["ban_country"],
-            "exc_country": info["exc_country"],
             "age_rate": info["age_rate"],
             "discount": info["discount"],
             "description": info["description"],
