@@ -11,35 +11,6 @@ body {
   --background-color:antiquewhite;
 }
 
-.navbar {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 10px 0;
-  border-bottom: 1px solid #fff;
-}
-
-.logo {
-  font-size: 24px;
-  font-weight: bold;
-}
-
-.search {
-  display: flex;
-  align-items: center;
-  background-color: #23262d;
-  padding: 10px;
-  border-radius: 4px;
-}
-
-.search input[type="text"] {
-  background-color: transparent;
-  border: none;
-  color: #fff;
-  flex: 1;
-  margin-left: 10px;
-}
-
 .showcase {
   box-shadow: 10px 8px 18px -9px rgba(0,0,0,0.66);
   width: 100%;
