@@ -1,5 +1,5 @@
 from web_system import *
-from Community import *
+from community import *
 from fastapi import FastAPI, Request, Form
 from fastapi.responses import HTMLResponse, RedirectResponse
 from fastapi.staticfiles import StaticFiles
@@ -15,7 +15,15 @@ css_path = "/" + css_folder  # MAJIK
 
 app.mount(css_path, StaticFiles(directory=css_folder), name=css_folder)
 
-steen_system = System()
+# ==== System Init ==== #
+product_catalog = ProductCatalog()
+
+artwork = Board()
+news = Board()
+manual = Board()
+
+boards = {"artwork":artwork, "news":news, "manual":manual}
+steen_system = System(product_catalog, boards)
 
 steen_system.register(user_name="Best",email="dark97975@gmail.com",password1="123Paul!",password2="123Paul!")
 
