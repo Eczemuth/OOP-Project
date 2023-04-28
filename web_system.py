@@ -23,12 +23,12 @@ class RegistStatus(Enum):
     PASSAVAILABLE = "password available"
 
 class System:
-    def __init__(self):
-        self.__boards = []
-        self.__product_catalog = ProductCatalog()
+    def __init__(self, product_catalog, boards):
+        self.__product_catalog = product_catalog
         self.__user_account = {}  # email:password
         self.__user_by_id = {}
         self.__user_by_name = {}
+        self.__boards = boards
         self.__current_user = None
 
     def get_current_user(self):
