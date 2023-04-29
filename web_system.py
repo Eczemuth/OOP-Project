@@ -23,7 +23,8 @@ class RegistStatus(Enum):
     PASSAVAILABLE = "password available"
 
 class System:
-    def __init__(self, product_catalog, boards):
+    def __init__(self, product_catalog, boards, community):
+        self.__community = community
         self.__product_catalog = product_catalog
         self.__user_account = {}  # email:password
         self.__user_by_id = {}
@@ -88,12 +89,15 @@ class System:
         self.__user_account[email] = pass1
 
         # this will add user to self.user
-        user = User(user_name, email, pass1)
+        user = User(user_name, email)
         self.__add_user(user)
-        self.__current_user = UserStatus.LOGEDIN
+        self.__current_user = user
         print("Register success")
         print(user.get_name(),user.get_id())
         return RegistStatus.SUCCESS
+
+    def logout(self):
+        self.__current_user = None
 
     def login(self,email,password):
         if email not in self.__user_account:
@@ -106,6 +110,7 @@ class System:
         print("Login success")
         # since user ID is a hash using email then we can hash the email to get user instead of ID
         login_user = self.__user_by_id[IdGenerator.generate_id(email)]
+        self.__current_user = login_user
 
         return LoginStatus.SUCCES, login_user
 
@@ -169,3 +174,6 @@ class System:
     def add_to_cart(self, product, user):
         user.add_to_cart(product)
 
+    # ================== About Board ================== #
+    def get_board(self, board_name):
+        return self.__community.get_board(board_name)
