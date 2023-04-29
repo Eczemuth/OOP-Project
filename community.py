@@ -1,6 +1,20 @@
 import datetime
 from utilities import IdGenerator
 
+class Community:
+    def __init__(self):
+        self.__boards = []
+
+    def add_board(self, board):
+        self.__boards.append(board)
+
+    def get_board(self, board_name):
+        for board in self.__boards:
+            if board.get_name() == board_name:
+                return board
+
+        return None
+
 
 class Post:
     def __init__(self,poster,media):
@@ -57,7 +71,8 @@ class Comment:
 
 
 class Board:
-    def __init__(self) -> None:
+    def __init__(self, name):
+        self.__name = name
         self.__post = []
 
     def add_post(self,new_post):
@@ -66,3 +81,5 @@ class Board:
     def get_post(self):
         return self.__post
 
+    def get_name(self):
+        return self.__name
