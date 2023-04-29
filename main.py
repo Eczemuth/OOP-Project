@@ -8,26 +8,31 @@ from mocking_data import *
 from module.product import Product
 
 app = FastAPI()
+TEMPLATE = Jinja2Templates("HTML")
 
 # don't forget this -> from fastapi.staticfiles import StaticFiles
 css_folder = "Style"  # folder that contain your css file
 css_path = "/" + css_folder  # MAJIK
 
-app.mount(css_path, StaticFiles(directory=css_folder), name=css_folder)
+app.mount(css_path, StaticFiles(directory=css_folder), name="Style")
 
 # ==== System Init ==== #
 community = Community()
 product_catalog = ProductCatalog()
 
+all_post = Board("all")
 artwork = Board("artwork")
 news = Board("news")
 manual = Board("manual")
 
-boards = {"artwork": artwork, "news": news, "manual": manual}
-steen_system = System(product_catalog, boards, community)
 
+community.add_board(all_post, artwork, news, manual)
+steen_system = System(product_catalog, community)
+
+# ==== register ==== #
 steen_system.register(user_name="Best",email="dark97975@gmail.com",password1="123Paul!",password2="123Paul!")
 
+# ==== init product ==== #
 dota_2 = Product(dota_2)
 let_build_a_zoo = Product(let_build_a_zoo)
 tribes_of_midgard = Product(tribes_of_midgard)
@@ -36,7 +41,11 @@ steen_system.add_product(dota_2)
 steen_system.add_product(let_build_a_zoo)
 steen_system.add_product(tribes_of_midgard)
 
-TEMPLATE = Jinja2Templates("HTML")
+post1 = Post(steen_system.get_current_user()
+             ,"https://steamuserimages-a.akamaihd.net/ugc/2066632296410876700/2AFC974AEFE4A02515EF7245082FEB33A69809FA/?imw=512&&ima=fit&impolicy=Letterbox&imcolor=%23000000&letterbox=false"
+             ,"Garry Mod")
+
+all_post.add_post(post1)
 
 @app.get("/",response_class=HTMLResponse)
 async def index(request : Request):
@@ -147,12 +156,13 @@ async def add_to_cart(product_id):
     return RedirectResponse(url=url)
 
 # ==================== Community Route ==================== #
-@app.get("/community", response_class=HTMLResponse)
-async def community(request: Request):
+@app.get("/community/{board_name}", response_class=HTMLResponse)
+async def community(request: Request, board_name= "all"):
     page_data = {"request": request}
 
-    board = steen_system.get_board("all")
+    board = steen_system.get_board(board_name)
 
-    page_data["display_board"] = board
+    page_data["board"] = board
+    print(board)
 
     return TEMPLATE.TemplateResponse("community.html", page_data)
