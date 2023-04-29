@@ -7,21 +7,28 @@ from module.chat import Chat
 class User:
     def __init__(self, name, email, profile_picture=None, description=None, level=0):
         self.__name = name
+        self.__email = email
         self.__id = IdGenerator.generate_id(email)
         self.__profile_picture = profile_picture
         self.__description = description
         self.__level = level
         self.__order = Order(self.__id)
-        self.__cart = ShoppingCart(self.__id)
+        self.__cart = ShoppingCart()
         self.__library = Library()
         self.__chats = Chat(User)
         self.__badge = []
+
+    def __repr__(self):
+        return self.__name
 
     def get_name(self):
         return self.__name
 
     def get_id(self):
         return self.__id
+
+    def get_email(self):
+        return self.__email
 
     @property
     def profile_picture(self):
@@ -40,13 +47,13 @@ class User:
         self.__level = level
 
     def get_cart(self):
-        return self.__cart
+        return self.__cart.view_products()
 
     def view_cart(self):
         return self.__cart.view_products()
 
-    def add_products(self, product):
-        self.__cart.add_products(product)
+    def add_to_cart(self, products):
+        self.__cart.add_products(products)
         return self.__cart
 
     def get_library(self):
