@@ -5,73 +5,25 @@
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
-	<link rel="stylesheet" href="styles.css">
+	<link rel="stylesheet" href="../Style/community.css">
 </head>
 <body>
-	<header>
-		<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-			<a class="navbar-brand" href="#">Steam</a>
-			<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-				<span class="navbar-toggler-icon"></span>
-			</button>
-			<div class="collapse navbar-collapse" id="navbarNav">
-				<ul class="navbar-nav ml-auto">
-					<li class="nav-item active">
-						<a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
-					</li>
-					<li class="nav-item">
-						<a class="nav-link" href="#">Games</a>
-					</li>
-					<li class="nav-item">
-						<a class="nav-link" href="#">Community</a>
-					</li>
-					<li class="nav-item">
-						<a class="nav-link" href="#">About</a>
-					</li>
-				</ul>
-			</div>
-		</nav>
-	</header>
-	<main class="container">
-		<section id="hero">
-			<h1>Welcome to the Steam Community</h1>
-			<p>Join other gamers from around the world to chat, share content, and discover new games.</p>
-		</section>
-		<section id="popular-games">
-			<h2>Popular Games</h2>
-			<div class="row">
-				<div class="col-lg-3 col-md-4 col-sm-6">
-                    {%for post in post_list%}
-                        <a href="#">
-                            <img src="https://via.placeholder.com/200x200" alt={{post}}>
-                            <h3>Game Title</h3>
-                        </a>
-                    </div>
-                    <div class="col-lg-3 col-md-4 col-sm-6">
-                        <a href="#">
-                            <img src="https://via.placeholder.com/200x200" alt={{post}}>
-                            <h3>Game Title</h3>
-                        </a>
-                    </div>
-                    <div class="col-lg-3 col-md-4 col-sm-6">
-                        <a href="#">
-                            <img src="https://via.placeholder.com/200x200" alt={{post}}>
-                            <h3>Game Title</h3>
-                        </a>
-                    </div>
-                    <div class="col-lg-3 col-md-4 col-sm-6">
-                        <a href="#">
-                            <img src="https://via.placeholder.com/200x200" alt={{post}}>
-                            <h3>Game Title</h3>
-                        </a>
-                    {%endfor%}
+	<div class="container">
+		<div class="post_container">
+
+			<div class="display">
+				<div class="picture">
+					<img src="https://steamuserimages-a.akamaihd.net/ugc/2066632296410876700/2AFC974AEFE4A02515EF7245082FEB33A69809FA/?imw=512&&ima=fit&impolicy=Letterbox&imcolor=%23000000&letterbox=false">
+				</div>
+				<div class="rating_bar">
+					<div class="score">1249</div>
+					<div class="comment_number" src="https://cdn-icons-png.flaticon.com/512/10554/10554826.png">348</div>
+					<div class="poster">SOMEONE</div>
+					<div class="gamename">Garry mod</div>
 				</div>
 			</div>
-		</section>
-		<section id="latest-news">
-			<h2>Latest News</h2>
-			<div class="row">
-				<div class="col-md-6">
-					<article>
-						<a href="#">
-							<img src="https://via.placeholder.com/400x200" alt="News Title">
+
+		</div>
+	</div>
+</body>
+</html>
