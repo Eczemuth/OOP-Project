@@ -16,14 +16,15 @@ css_path = "/" + css_folder  # MAJIK
 app.mount(css_path, StaticFiles(directory=css_folder), name=css_folder)
 
 # ==== System Init ==== #
+community = Community()
 product_catalog = ProductCatalog()
 
-artwork = Board()
-news = Board()
-manual = Board()
+artwork = Board("artwork")
+news = Board("news")
+manual = Board("manual")
 
-boards = {"artwork":artwork, "news":news, "manual":manual}
-steen_system = System(product_catalog, boards)
+boards = {"artwork": artwork, "news": news, "manual": manual}
+steen_system = System(product_catalog, boards, community)
 
 steen_system.register(user_name="Best",email="dark97975@gmail.com",password1="123Paul!",password2="123Paul!")
 
@@ -38,31 +39,31 @@ steen_system.add_product(tribes_of_midgard)
 TEMPLATE = Jinja2Templates("HTML")
 
 @app.get("/",response_class=HTMLResponse)
-async def index(request : Request, user=None):
+async def index(request : Request):
     page_data = {"request" : request}
+
     recommend_product = steen_system.get_recommend_product()
     discount_product = steen_system.get_discount_product()
 
     page_data["discount_product"] = discount_product
     page_data["recommend_product"] = recommend_product
-    if user:
-        u = steen_system.search_profile(search_id=IdGenerator.generate_id(user))[0]
-        print(user,type(user),u,type(u))
-        page_data["user"] = steen_system.search_profile(search_id=IdGenerator.generate_id(user))[0]
+
+    page_data["user"] = steen_system.get_current_user()
+    print(page_data["user"])
     return TEMPLATE.TemplateResponse("index.html",page_data)
 
 @app.get("/product/{product_id}",response_class=HTMLResponse)
 async def view_product(request : Request, product_id):
     product = steen_system.get_product(product_id)
 
-    page_data = {"request" : request, "product":product.get_info()}
+    page_data = {"request" : request, "product":product.get_info(), "user": steen_system.get_current_user()}
     return TEMPLATE.TemplateResponse("product.html",page_data)
 
 @app.post("/product/{product_id}",response_class=HTMLResponse)
 async def view_product(request : Request, product_id):
     product = steen_system.get_product(product_id)
 
-    page_data = {"request" : request, "product":product.get_info()}
+    page_data = {"request" : request, "product":product.get_info(), "user": steen_system.get_current_user()}
     return TEMPLATE.TemplateResponse("product.html",page_data)
 
 @app.get("/profile/{user_id}",response_class=HTMLResponse)
@@ -81,12 +82,18 @@ async def login(request: Request, status = None):
 async def verify_login(request: Request, email,password):
     status, user = steen_system.login(email=email,password=password)
     if status == LoginStatus.SUCCES:
-        print("verify", user, type(user))
-        redirect_url = request.url_for("index").include_query_params(user=user)
+        print("verify", user)
+        redirect_url = request.url_for("index")
         return RedirectResponse(redirect_url)
     else:
         redirect_url = request.url_for("login").include_query_params(status=status)
         return RedirectResponse(redirect_url)
+
+@app.get("/logout", response_class=HTMLResponse)
+async def logout(request: Request):
+    steen_system.logout()
+    redirect_url = request.url_for("index")
+    return RedirectResponse(redirect_url)
 
 @app.get("/register",response_class=HTMLResponse)
 async def register(request : Request):
@@ -128,10 +135,24 @@ async def cart(request: Request, user_id):
 
     return TEMPLATE.TemplateResponse("cart.html", page_data) # new front-end
 
-@app.post("/add_to_cart/{user_id}/{product_id}")
-async def add_to_cart(user_id, product_id):
+@app.post("/add_to_cart/{product_id}")
+async def add_to_cart(product_id):
     product = steen_system.get_product(product_id)
-    user = steen_system.get_user_by_id(user_id)
-    steen_system.add_to_cart(product, user)
+    user = steen_system.get_current_user()
+    if user:
+        print(">>", user.get_cart())
+        steen_system.add_to_cart(product, user)
+        print(">>", user.get_cart())
     url = app.url_path_for("view_product",product_id=product_id)
     return RedirectResponse(url=url)
+
+# ==================== Community Route ==================== #
+@app.get("/community", response_class=HTMLResponse)
+async def community(request: Request):
+    page_data = {"request": request}
+
+    board = steen_system.get_board("all")
+
+    page_data["display_board"] = board
+
+    return TEMPLATE.TemplateResponse("community.html", page_data)
