@@ -5,9 +5,9 @@ from module.library import Library
 from module.chat import Chat
 
 class User:
-    def __init__(self, name, profile_picture=None, description=None, level=0):
+    def __init__(self, name, email, profile_picture=None, description=None, level=0):
         self.__name = name
-        self.__id = IdGenerator.generate_id(name)
+        self.__id = IdGenerator.generate_id(email)
         self.__profile_picture = profile_picture
         self.__description = description
         self.__level = level
