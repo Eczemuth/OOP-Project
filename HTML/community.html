@@ -8,21 +8,15 @@
 	<link rel="stylesheet" href="../Style/community.css">
 </head>
 <body>
+	{% include "/Templates/navbar.html" %}
 	<div class="container">
+		<div class="community_bar_container">
+			{% include "/Templates/community_bar.html" %}
+		</div>
 		<div class="post_container">
-
-			<div class="display">
-				<div class="picture">
-					<img src="https://steamuserimages-a.akamaihd.net/ugc/2066632296410876700/2AFC974AEFE4A02515EF7245082FEB33A69809FA/?imw=512&&ima=fit&impolicy=Letterbox&imcolor=%23000000&letterbox=false">
-				</div>
-				<div class="rating_bar">
-					<div class="score">1249</div>
-					<div class="comment_number" src="https://cdn-icons-png.flaticon.com/512/10554/10554826.png">348</div>
-					<div class="poster">SOMEONE</div>
-					<div class="gamename">Garry mod</div>
-				</div>
-			</div>
-
+			{% for post in board.get_post() %}
+				{% include "/Templates/community_display.html" %}
+			{% endfor %}
 		</div>
 	</div>
 </body>

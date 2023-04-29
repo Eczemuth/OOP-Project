@@ -1,4 +1,5 @@
 body {
+	font-family: 'Noto Sans Thai', sans-serif;
     background-color: #1b2838;
     color: #fff;
     font-family: Arial, sans-serif;
@@ -10,33 +11,6 @@ body {
     padding: 20px;
 }
 
-/* //////////////////// */
-.display {
-	max-width: 445px;
-	max-height: 445px;
-}
-
-.picture {
-	width: 100%;
-	height: 100%;
-}
-
-.picture img {
-	background-size: cover;
-}
-
-.rating_bar {
-	max-width: 100%;
-	max-height: 70px;
-	background-color: #0c131b;
-	display: grid;
-	grid-template-rows: repeat();
-}
-
-.rating_bar .score {
-	color: #464646;
-}
-
-.rating_bar .comment_number {
-	
+.community_bar_container {
+	margin: 30px 0 30px 0;
 }
