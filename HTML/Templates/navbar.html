@@ -9,7 +9,7 @@
     <div class="navigate">
         <a href="/">Store</a>
         <a href="/libray">Library</a>
-        <a href="/communuty">Community</a>
+        <a href="/community">Community</a>
         {% if user %}
             <a href="/cart/{{ user.get_id() }}">Viewcart</a>
             <a href="/profile/{{ user.get_id() }}">Profile</a>
@@ -17,10 +17,10 @@
     </div>
 
     <div class="profile">
-        {% if user == None %}
+        {% if not user %}
             <a class="login" href="/login">Login</a>
         {% else %}    
-            <a href="/">Logout</a>
+            <a href="/logout">Logout</a>
         {% endif %}
     </div>
 </div>
