@@ -6,6 +6,11 @@ body {
     background-color: #1B2838;
 }
 
+a{
+    text-decoration: none white;
+    color: inherit;
+}
+
 .container {
     max-width: 1000px;
     height: 1200px;
@@ -15,7 +20,6 @@ body {
     grid-template-rows: 200px 1000px;
     grid-gap: 10px;
     background-color:#101822;
-
 }
 
 .bio_container {
@@ -25,6 +29,14 @@ body {
 
 .bio_container .profile_pic img {
     outline: solid 3px grey;
+}
+
+.info_container {
+    margin-left: 20px;
+}
+
+.info_container .name {
+    font-size: 42px;
 }
 
 .level_info_container {
@@ -42,6 +54,12 @@ body {
     border-radius: 50%;
     outline: solid 3.5px #fff;
     font-size: 32px;
+}
+
+.profile_setting{
+    border-radius: 3px;
+    background-color: #1B2838;
+    padding: 7px;
 }
 
 .profile_header,  .profile_content{

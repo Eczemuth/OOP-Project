@@ -2,17 +2,18 @@ body {
     background-color: #171a21;
     color: #fff;
     font-family: Arial, sans-serif;
+
 }
 
 ul {
     list-style-type: none;
     margin: 0;
     padding: 0;
-    width: 10%;
+    width: 25%;
     background-color: #292838;
     position: fixed;
     height: 100%;
-    overflow: auto;
+    overflow: auto; 
 }
 
 li a{
@@ -20,31 +21,20 @@ li a{
     padding: 8px 16px;
 }
 
-span {
+.box1,.box2 span {
     padding: 5px 10px;
-    height: auto;
 }
 
-.container {
-    max-width: 1800px;
+ .container {
+    max-width: 900px;
     padding: 10px;
-    margin-left:10%;
-    height:800px;
+    margin-left:25%;
+    height:1000px;
     --background-color:antiquewhite;
-}
+} 
 
 .box1 {
     display: flex;
     height: 20%;
     background-color: #354875;
-}
-
-.box2{
-    display: flex;
-	flex-wrap: wrap;
-    height: fit-content;
-}
-
-image{
-    size: 40px;
 }

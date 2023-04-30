@@ -7,15 +7,8 @@
   <link rel="icon" type="image/png" href="../Icon/favicon.png">
 </head>
 <body>
+  {% include "Templates/navbar.html" %}
 	<div class="container">
-		<div class="navbar">
-			<div class="logo">My Steam-like Website</div>
-			<div class="search"></div>
-            <form class="search">
-                <input type="text" placeholder="Search for games...">
-                <button type="submit">Search</button>
-            </form>
-    </div>
     <!--============================================================= Showcase ============================================================= -->
     <!--============================================================= Showcase ============================================================= -->
     <!--============================================================= Showcase ============================================================= -->
@@ -50,11 +43,11 @@
     <!--============================================================= Buy Tab ============================================================= -->
     <div class="buytab">
       <h3>Play {{ product["name"] }}</h3>
-      <div class="addtocart">
+      <form class="addtocart" action="/add_to_cart/{{ product['id'] }}" method="post">
         <div class="prod price">{{ product["price"] * product["discount"] }} THB</div>
         <div class="prod discount">-{{  100 * product["discount"] }}%</div>
-        <button class="prod addbtn">Add to cart</button>
-      </div>
+        <button type="submit" class="prod addbtn">Add to cart</button>
+      </form>
     </div>
     <!--============================================================= Sys req ============================================================= -->
     <!--============================================================= Sys req ============================================================= -->
@@ -63,9 +56,9 @@
     <!--============================================================= Sys req ============================================================= -->
 
     <div class="sysreq_tab">
-      {% for lang in product["lang_sup"] %}
+      <!-- {% for lang in product["lang_sup"] %}
           <h2>{{lang}}</h2>
-      {% endfor %}
+      {% endfor %} -->
     </div>
 
   </div>

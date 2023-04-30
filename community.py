@@ -1,25 +1,46 @@
 import datetime
-import json
 from utilities import IdGenerator
 
+
+class Community:
+    def __init__(self):
+        self.__boards = []
+
+    def add_board(self, *args):
+        for board in args:
+            self.__boards.append(board)
+
+    def get_board(self, board_name):
+        for board in self.__boards:
+            if board.get_name() == board_name:
+                return board
+
+        return None
+
+
 class Post:
-    def __init__(self,poster,media):
+    def __init__(self,poster, media, game_name):
         self.__id = IdGenerator.generate_id(id(self))
         self.__poster = poster
         self.__media_link = media
         self.__rating = Rating()
+        self.__game_name = game_name
         self.__comment = []
 
-    def get_info(self):
-        info = {
-            "id" : self.__id,
-            "poster" : self.__poster,
-            "media" : self.__media_link,
-            "rating" : self.__rating,
-            "comment" : self.__comment
-        }
+    def get_game_name(self):
+        return self.__game_name
 
-        return info
+    def get_media(self):
+        return self.__media_link
+
+    def get_rating(self):
+        return self.__rating.get_rating()
+
+    def get_poster(self):
+        return self.__poster
+
+    def get_comment_number(self):
+        return "36"
 
 class Rating:
     def __init__(self) -> None:
@@ -29,13 +50,14 @@ class Rating:
         self.__bad_rating = 0
 
     def get_rating(self):
-        return self.__bad_rating,self.__good_rating
+        return self.__good_rating
 
     def add_rating(self):
         self.__good_rating += 1
     
     def dis_rating(self):
         self.__bad_rating += 1
+
 
 class Comment:
     def __init__(self,comment) -> None:
@@ -53,8 +75,10 @@ class Comment:
     def get_replies(self):
         return self.__replies
 
+
 class Board:
-    def __init__(self) -> None:
+    def __init__(self, name):
+        self.__name = name
         self.__post = []
 
     def add_post(self,new_post):
@@ -62,3 +86,9 @@ class Board:
 
     def get_post(self):
         return self.__post
+
+    def get_name(self):
+        return self.__name
+
+    def __repr__(self):
+        return self.__name
