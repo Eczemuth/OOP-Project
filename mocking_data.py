@@ -1,7 +1,7 @@
 from product import Product
 from user import User
 
-Fifa_23 = {
+fifa_23 = {
             "name": "EA SPORTS™ FIFA 23",
             "price": 1899.00,
             "os_support": [" Windows 10 64-bit"],
