@@ -13,22 +13,14 @@
     {% include "Templates/navbar.html" %}
     <div class="container">
         <div class="profile_header">
-            <div class="bio_container">
-                <div class="profile_pic">
-                    <img src="{{ user.get_picture_profile() }}">
-                </div>
-                <div class="info_container">
-                    <div class="name">{{ user.get_name() }}</div>
-                    <div class="bio">{{ user.get_description() }}</div>
-                </div>
-            </div>
+            {% include "Templates/bio_container.html" %}
             <div class="level_container">
                 <div class="level_info_container">
                     <h2>Level</h2>
                     <div class="level">9</div>
                 </div>
                 <div class="show_achieve_ment"></div>
-                <a href="/edit_profile/{{ user.get_id() }}" class="profile_setting">Edit Profile</a>
+                <a href="/setting_profile/{{ user.get_id() }}" class="profile_setting">Edit Profile</a>
             </div>
         </div>
 
