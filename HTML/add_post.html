@@ -4,18 +4,25 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../Style/login.css" >
-	<link rel="stylesheet" href="{{ url_for('Style', path='login.css') }}" >
+    <link rel="stylesheet" href="../Style/add_post.css" >
+	<link rel="stylesheet" href="{{ url_for('Style', path='add_post.css') }}" >
     <title>Document</title>
 </head>
 <body>
-
-    <h3>Show a file-select field which allows only one file to be chosen:</h3>
-    <form action="/submit_page">
-        <label for="myfile">Select a file:</label>
-        <input type="file" accept=".png, .jpg" id="myfile" name="myfile">  <br><br>
-        <input type="submit">
-    </form>
+    {% include "/Templates/navbar.html" %}
+    <div class="container">
+        <form action="/submit_page">
+            <label for="myfile">Select a file:</label>
+            <input type="file" accept=".png, .jpg" id="myfile" name="myfile">
+            <select class="page_type" name="board_type">
+                <option value="all">all</option>
+                <option value="artwork">artwork</option>
+                <option value="news">news</option>
+                <option value="manual">manual</option>
+            </select>
+            <input type="submit">
+        </form>
+    </div>
     
 </body>
 </html>
