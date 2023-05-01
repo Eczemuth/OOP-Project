@@ -1,15 +1,17 @@
 from web_system import *
 from community import *
-from fastapi import FastAPI, Request, Form
+from fastapi import Request
 from fastapi.responses import HTMLResponse, RedirectResponse
 from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
 from mocking_data import *
 from module.product import Product
+from fastapi import  FastAPI, Response
 
 app = FastAPI()
 TEMPLATE = Jinja2Templates("HTML")
 
+# ==== Init CSS ==== #
 # don't forget this -> from fastapi.staticfiles import StaticFiles
 css_folder = "Style"  # folder that contain your css file
 css_path = "/" + css_folder  # MAJIK
@@ -48,7 +50,7 @@ post1 = Post(steen_system.get_current_user()
 all_post.add_post(post1)
 
 @app.get("/",response_class=HTMLResponse)
-async def index(request : Request):
+async def index(request : Request, response: Response):
     page_data = {"request" : request}
 
     recommend_product = steen_system.get_recommend_product()
@@ -61,34 +63,34 @@ async def index(request : Request):
     print(page_data["user"])
     return TEMPLATE.TemplateResponse("index.html",page_data)
 
-@app.get("/product/{product_id}",response_class=HTMLResponse)
+@app.get("/product/{product_id}", tags=["Product"], response_class=HTMLResponse)
 async def view_product(request : Request, product_id):
     product = steen_system.get_product(product_id)
 
     page_data = {"request" : request, "product":product.get_info(), "user": steen_system.get_current_user()}
     return TEMPLATE.TemplateResponse("product.html",page_data)
 
-@app.post("/product/{product_id}",response_class=HTMLResponse)
+@app.post("/product/{product_id}", tags=["Product"], response_class=HTMLResponse)
 async def view_product(request : Request, product_id):
     product = steen_system.get_product(product_id)
 
     page_data = {"request" : request, "product":product.get_info(), "user": steen_system.get_current_user()}
     return TEMPLATE.TemplateResponse("product.html",page_data)
 
-@app.get("/profile/{user_id}",response_class=HTMLResponse)
+@app.get("/profile/{user_id}", tags=["User"], response_class=HTMLResponse)
 async def view_profile(request : Request, user_id):
     user = steen_system.search_profile(search_id = user_id)
     page_data = {"request": request, "user": user}
     return TEMPLATE.TemplateResponse("profile.html",page_data)
 
-@app.get("/login",response_class=HTMLResponse)
+@app.get("/login", tags=["System"], response_class=HTMLResponse)
 async def login(request: Request, status = None):
     page_data = {"request": request}
     page_data["status"] = status
     return TEMPLATE.TemplateResponse("login.html",page_data) # new front-end
 
-@app.get("/verify_login",response_class=HTMLResponse)
-async def verify_login(request: Request, email,password):
+@app.get("/verify_login", tags=["System"], response_class=HTMLResponse)
+async def verify_login(request: Request, response: Response, email, password):
     status, user = steen_system.login(email=email,password=password)
     if status == LoginStatus.SUCCES:
         print("verify", user)
@@ -98,18 +100,19 @@ async def verify_login(request: Request, email,password):
         redirect_url = request.url_for("login").include_query_params(status=status)
         return RedirectResponse(redirect_url)
 
-@app.get("/logout", response_class=HTMLResponse)
+
+@app.get("/logout", tags=["System"], response_class=HTMLResponse)
 async def logout(request: Request):
     steen_system.logout()
     redirect_url = request.url_for("index")
     return RedirectResponse(redirect_url)
 
-@app.get("/register",response_class=HTMLResponse)
+@app.get("/register", tags=["System"], response_class=HTMLResponse)
 async def register(request : Request):
     page_data = {"request": request}
     return TEMPLATE.TemplateResponse("register.html",page_data) # new front-end
 
-@app.get("/verify_register",response_class=HTMLResponse)
+@app.get("/verify_register", tags=["System"], response_class=HTMLResponse)
 async def verify_register(request: Request, username,email,pass1,pass2):
     status = steen_system.register(user_name=username,email=email,password1=pass1,password2=pass2)
 
@@ -130,21 +133,21 @@ async def verify_register(request: Request, username,email,pass1,pass2):
         page_data["register_status"] = status
         return TEMPLATE.TemplateResponse("register.html", page_data) # new front-end
 
-@app.get("/search_product/result",response_class=HTMLResponse)
+@app.get("/search_product/result", tags=["Product"], response_class=HTMLResponse)
 async def search_product(request: Request, keyword=""):
     found_products = steen_system.search_product(search_name=keyword)
     print(found_products, keyword, type(keyword))
     page_data = {"request": request, "found_products": found_products, "kw": keyword}
     return TEMPLATE.TemplateResponse("search_product.html",page_data) # new front-end
 
-@app.get("/cart/{user_id}",response_class=HTMLResponse)
+@app.get("/cart/{user_id}", tags=["Cart"], response_class=HTMLResponse)
 async def cart(request: Request, user_id):
     user = steen_system.search_profile(search_id=user_id)
     page_data = {"request": request, "user": user}
 
     return TEMPLATE.TemplateResponse("cart.html", page_data) # new front-end
 
-@app.post("/add_to_cart/{product_id}")
+@app.post("/add_to_cart/{product_id}", tags=["Cart"])
 async def add_to_cart(product_id):
     product = steen_system.get_product(product_id)
     user = steen_system.get_current_user()
@@ -156,7 +159,7 @@ async def add_to_cart(product_id):
     return RedirectResponse(url=url)
 
 # ==================== Community Route ==================== #
-@app.get("/community/{board_name}", response_class=HTMLResponse)
+@app.get("/community/{board_name}",tags=["Community"], response_class=HTMLResponse)
 async def community(request: Request, board_name= "all"):
     page_data = {"request": request}
 
@@ -166,3 +169,14 @@ async def community(request: Request, board_name= "all"):
     print(board)
 
     return TEMPLATE.TemplateResponse("community.html", page_data)
+
+@app.get("/add_post",tags=["Community"], response_class=HTMLResponse)
+async def community(request: Request):
+    page_data = {"request": request}
+
+    return TEMPLATE.TemplateResponse("add_post.html", page_data)
+
+@app.get("/submit_post",tags=["Community"], response_class=HTMLResponse)
+async def community(request: Request):
+    url = app.url_path_for("view_product")
+    return RedirectResponse(url=url)
