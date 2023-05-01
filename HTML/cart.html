@@ -29,7 +29,7 @@
 
                     <div class="prod_price_container">
                         <div class="price">{{ product.get_price() }}</div>
-                        <a href="">Delete</a>
+                        <a href="/remove_from_cart/{{ user.get_id() }}/{{ product.get_id() }}">Delete</a>
                     </div>
                     {% endfor %}
                 </div>
