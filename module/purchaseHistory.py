@@ -1,11 +1,11 @@
-from order import Order
+from module.order import Order
 
-class purchaseHistory:
+class PurchaseHistory:
     def __init__(self):
-         self.__history = []
+         self.__history_list = []
          
-    def get_history(self):
-        return self.__history
+    def get_history_list(self):
+        return self.__history_list
     
-    def add_to_history(self, Order):
-        self.__history.append(Order)
+    def add_to_history(self, order):
+        self.__history.append(order)
