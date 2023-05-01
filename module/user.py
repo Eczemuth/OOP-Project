@@ -42,7 +42,7 @@ class User:
         return self.__description
     
     def set_description(self, description):
-        self.__description
+        self.__description = description
 
     def get_level(self):
         return self.__level
