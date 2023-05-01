@@ -3,6 +3,7 @@ from utilities import IdGenerator
 from module.order import Order
 from module.library import Library
 from module.chat import Chat
+from module.purchaseHistory import PurchaseHistory
 
 class User:
     def __init__(self, name, email, profile_picture="https://avatars.cloudflare.steamstatic.com/fef49e7fa7e1997310d705b2a6158ff8dc1cdfeb_full.jpg", description=None, level=0):
@@ -12,8 +13,11 @@ class User:
         self.__profile_picture = profile_picture
         self.__description = description
         self.__level = level
+        self.__friend_list = []
         self.__cart = ShoppingCart()
+        self.__order = None
         self.__library = Library()
+        self.__purchase_history = PurchaseHistory()
         self.__chat = Chat()
         self.__badge = []
 
@@ -29,6 +33,12 @@ class User:
     def get_id(self):
         return self.__id
 
+    def add_friend_list(self, user):
+        self.__friend_list.append(user)
+        
+    def get_friend_list(self):
+        return self.__friend_list
+    
     def get_email(self):
         return self.__email
 
@@ -59,6 +69,9 @@ class User:
 
     def get_library(self):
         return self.__library
+    
+    def get_purchase_hostory(self):
+        return self.__purchase_history
     
     def get_chat(self):
         return self.__chat
