@@ -22,7 +22,7 @@ a{
     background-color:#101822;
 }
 
-.bio_container {
+/* .bio_container {
     display: grid;
     grid-template-columns: 184px 466px;
 }
@@ -37,7 +37,7 @@ a{
 
 .info_container .name {
     font-size: 42px;
-}
+} */
 
 .level_info_container {
     display: flex;
