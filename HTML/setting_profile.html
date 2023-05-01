@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" href="../Style/setting_profile.css?v=1">
+        <link rel="stylesheet" href="{{ url_for('Style',
+            path='setting_profile.css?v=1')
+            }}">
+        <link rel="icon" type="image/png" href="../Icon/favicon.png">
+        <title>Setting Profile</title>
+    </head>
+    <body>
+        {% include "Templates/navbar.html" %}
+        <div class="container">
+            <form>
+                <h2>Edit your profile</h2>
+                <div>Enter name <input type="text"></div>
+                <div>Enter picture's link <input type="text"></div>
+                <div>Enter description <input type="text"></div>
+                <input type="submit">
+            </form>
+        </div>
+    </body>
+</html>
