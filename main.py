@@ -217,13 +217,29 @@ async def confirm_purchase(request: Request, user_id, method, card_number, expir
                            billing_address1, billing_address2, country, city, postal_code, phone_number):
     user = steen_system.search_profile(search_id=user_id)
     page_data = {"request": request, "user": user}
-    
     cart = user.get_cart()
     library = user.get_library()
+    history = user.get_purchase_history()
+    user.create_order()
+    order = user.get_order()
     for product in cart.get_products():
-        if product.get_name() not in [item.get_name() for item in library.get_products()]:
-            library.add_product(product)
+        # if product.get_name() not in [item.get_name() for item in library.get_products()]:
+        library.add_product(product)
+        order.add_product(product)
+    order.receive_shipping_detail(method, card_number, expiration_month, expiration_year, first_name, last_name,
+                                  billing_address1, billing_address2, country, city, postal_code, phone_number)
+    order.calculate_total_cost()
+    history.add_to_history(order)
+    cart.remove_all_product()
+
     return TEMPLATE.TemplateResponse("library.html", page_data)
+
+
+@app.get("/purchase_history/{user_id}", tags=["History"], response_class=HTMLResponse)
+async def purchase_history(request: Request, user_id):
+    user = steen_system.search_profile(search_id=user_id)
+    page_data = {"request": request, "user": user}
+    return TEMPLATE.TemplateResponse("purchase_history.html", page_data)
 
 # ==================== Community Route ==================== #
 
