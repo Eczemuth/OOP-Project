@@ -2,6 +2,7 @@ body {
     background-color: #171a21;
     color: #fff;
     font-family: Arial, sans-serif;
+
 }
 
 .container {
@@ -9,4 +10,10 @@ body {
     margin: 0 auto;
     padding: 20px;
     --background-color:antiquewhite;
+}
+
+.each-order{
+    background-color: #1B2838;
+    padding: 5px;
+    margin: 10px;
 }

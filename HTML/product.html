@@ -46,7 +46,9 @@
       <form class="addtocart" action="/add_to_cart/{{ product['id'] }}" method="post">
         <div class="prod price">{{ product["price"] * product["discount"] }} THB</div>
         <div class="prod discount">-{{  100 * product["discount"] }}%</div>
+        {% if product not in user.get_cart().get_products() %}
         <button type="submit" class="prod addbtn">Add to cart</button>
+        {% endif %}
       </form>
     </div>
     <!--============================================================= Sys req ============================================================= -->
