@@ -30,7 +30,7 @@
           <img src="{{ product.get_cover() }}">
         </div>
         <div class="description"> 
-          {{ product["description"] }}
+          {{ product.get_description() }}
         </div>
         <div class="review"></div>
         <div class="tags"></div>
@@ -45,11 +45,15 @@
     <!--============================================================= Buy Tab ============================================================= -->
     <!--============================================================= Buy Tab ============================================================= -->
     <div class="buytab">
-      <h3>Play {{ product["name"] }}</h3>
-      <form class="addtocart" action="/add_to_cart/{{ product['id'] }}" method="post">
+      <h3>Play {{ product.get_name() }}</h3>
+      <form class="addtocart" action="/add_to_cart/{{ product.get_id() }}" method="post">
         <div class="prod price">{{ product.get_discounted_price() }} THB</div>
         <div class="prod discount">-{{  100 * product.get_discount() }}%</div>
-        <button type="submit" class="prod addbtn">Add to cart</button>
+        {% if addable %}
+          <button type="submit" class="prod addbtn green_addbtn">Add to cart</button>
+        {% else %}
+          <button                  class="prod addbtn grey_addbtn">Add to cart</button>
+        {% endif %}
       </form>
     </div>
     <!--============================================================= Sys req ============================================================= -->
