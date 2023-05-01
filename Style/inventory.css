@@ -1,0 +1,97 @@
+html,body {
+    background-color: #1b2838;
+    margin: 0;
+    padding: 0;
+}
+.top-header{
+    background-color: #171a21;
+    height: 120px;
+    text-align: center;
+    position : relative
+}
+.top-right{
+    color :white;
+    position: absolute;
+    top: 18.5px;
+    right: 330px;
+}
+.top-left{
+    color :white;
+    position: absolute;
+    top: 15px;
+    left: 330px;
+}
+.menu{
+    color: #ebebeb;
+    font-size: 15px;
+    padding: 20px;
+    display: inline-block;
+    text-decoration: none;
+    
+}
+.logo{
+    font-size: 25px;
+    font-weight: 800;
+    
+}
+.box1{
+    background-color: rgba(58, 62, 71, 0.5);
+    padding: 20px;
+    margin: 30px;
+    color:#ebebeb;
+}
+
+.button{
+    color :white;
+    background-color: aqua;
+    padding: 10px;
+    text-decoration: none;
+    display: inline-block;
+}
+.img{
+    border: 1;
+    border-color: white;
+    width: 50px;
+    height: 50px;
+}
+.footer{
+    background-color: #000000;
+    padding: 20px;
+    text-align: center;
+
+}
+.box2 {
+    background-color: #1c1e21;
+    width: 400px;
+    height: 500px;
+    padding: 100px;
+    margin: 100px;
+    color: #ebebeb;
+}
+.box2_ctn {
+    height: 560px;
+    font-size: 24px;
+    text-align: center;
+}
+.flexbox{
+    display: flex;
+    box-sizing: border-box;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: flex-end;
+    margin-left: -10px;
+    margin-right: -10px;
+}
+.item{
+    display: block;
+    box-sizing: border-box;
+    width: 25%;
+    padding-left: 10px;
+    padding-right: 10px;
+    margin-bottom: 15px;
+}
+.image{
+    background-color: white;
+    color: #000000;
+}
