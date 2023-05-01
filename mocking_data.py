@@ -1,5 +1,5 @@
-from product import Product
-from user import User
+from module.product import Product
+from module.user import User
 
 fifa_23 = {
             "name": "EA SPORTS™ FIFA 23",
@@ -303,7 +303,6 @@ pubg = {
             "description": "Play PUBG: BATTLEGROUNDS for free. Land on strategic locations, loot weapons and supplies, and survive to become the last team standing across various, diverse Battlegrounds. Squad up and join the Battlegrounds for the original Battle Royale experience that only PUBG: BATTLEGROUNDS . ",
             "release_date": [21, 12, 2017]
 }
-
 let_build_a_zoo = {
             "name": "Let's Build a Zoo",
             "price": 249.00,
@@ -382,3 +381,8 @@ Learn the ropes playing co-op vs. bots. Sharpen your skills in the hero demo mod
 be matched with the right players each game.""",
             "release_date": [10, 7, 2013]
 }
+
+all_product_info = [fifa_23, planet_zoo, sea_of_thieves_2023, xcom_2, no_man_sky, contraband_police,
+               football_manager_2023, this_war_of_mine, twelve_minutes, cyberpunk_2077,
+               detroit_become_human, phasmophobia, grand_theft_auto_V, rainbow_six,
+               pubg, let_build_a_zoo, tribes_of_midgard, dota_2]
