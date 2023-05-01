@@ -32,15 +32,28 @@ steen_system = System(product_catalog, community)
 # ==== register ==== #
 steen_system.register(user_name="Best", email="dark97975@gmail.com",
                       password1="123Paul!", password2="123Paul!")
+steen_system.register(user_name="Tony", email="tony789@gmail.com",
+                      password1="Paulo789$", password2="Paulo789$")
+steen_system.register(user_name="Best", email="ggwellplay@gmail.com",
+                      password1="465Paul#", password2="456Paul#")
+steen_system.register(user_name="Rosey", email="rosenne@gmail.com",
+                      password1="redRose123?", password2="redRose123?")
 
 # ==== init product ==== #
 dota_2 = Product(dota_2)
 let_build_a_zoo = Product(let_build_a_zoo)
 tribes_of_midgard = Product(tribes_of_midgard)
+fifa_23 = Product(fifa_23)
+planet_zoo = Product(planet_zoo)
+sea_of_thieves_2023 = Product(sea_of_thieves_2023)
+
 
 steen_system.add_product(dota_2)
 steen_system.add_product(let_build_a_zoo)
 steen_system.add_product(tribes_of_midgard)
+steen_system.add_product(fifa_23)
+steen_system.add_product(planet_zoo)
+steen_system.add_product(sea_of_thieves_2023)
 
 post1 = Post(steen_system.get_current_user(
 ), "https://steamuserimages-a.akamaihd.net/ugc/2066632296410876700/2AFC974AEFE4A02515EF7245082FEB33A69809FA/?imw=512&&ima=fit&impolicy=Letterbox&imcolor=%23000000&letterbox=false", "Garry Mod")
@@ -88,7 +101,7 @@ async def view_profile(request: Request, user_id):
     return TEMPLATE.TemplateResponse("profile.html", page_data)
 
 
-@app.get("/library/{user_id}", tags="Library", response_class=HTMLResponse)
+@app.get("/library/{user_id}", tags=["Library"], response_class=HTMLResponse)
 async def library(user_id, request: Request):
     user = steen_system.search_profile(search_id=user_id)
     page_data = {"request": request, "user": user}
@@ -171,7 +184,7 @@ async def cart(request: Request, user_id):
     return TEMPLATE.TemplateResponse("cart.html", page_data)  # new front-end
 
 
-@app.post("/add_to_cart/{product_id}")
+@app.post("/add_to_cart/{product_id}", tags=["Cart"])
 async def add_to_cart(product_id):
     product = steen_system.get_product(product_id)
     user = steen_system.get_current_user()
@@ -183,10 +196,28 @@ async def add_to_cart(product_id):
     return RedirectResponse(url=url)
 
 
-@app.get("/confirmation/{user_id}", response_class=HTMLResponse)
-async def confirm_purchase(request: Request, user_id):
+@app.get("/remove_from_cart/{user_id}/{product_id}", tags=["Cart"])
+async def remove_from_cart(product_id, user_id):
+    product = steen_system.get_product(product_id)
+    user = steen_system.search_profile(search_id=user_id)
+    user.get_cart().remove_product(product)
+    url = app.url_path_for("cart", user_id=user_id)
+    return RedirectResponse(url=url)
+
+
+@app.get("/payment/{user_id}", tags=["Payment"], response_class=HTMLResponse)
+async def payment_detail(request: Request, user_id):
     user = steen_system.search_profile(search_id=user_id)
     page_data = {"request": request, "user": user}
+    return TEMPLATE.TemplateResponse("payment.html", page_data)
+
+
+@app.get("/confirmation/{user_id}", response_class=HTMLResponse)
+async def confirm_purchase(request: Request, user_id, method, card_number, expiration_month, expiration_year, first_name, last_name,
+                           billing_address1, billing_address2, country, city, postal_code, phone_number):
+    user = steen_system.search_profile(search_id=user_id)
+    page_data = {"request": request, "user": user}
+    
     cart = user.get_cart()
     library = user.get_library()
     for product in cart.get_products():
@@ -209,14 +240,30 @@ async def community(request: Request, board_name="all"):
     return TEMPLATE.TemplateResponse("community.html", page_data)
 
 
-@app.get("/edit_profile/{user_id}", tags="User", response_class=HTMLResponse)
-async def edit_profile(request: Request, user_id):
+@app.get("/setting_profile/{user_id}", tags=["User"], response_class=HTMLResponse)
+async def setting_profile(request: Request, user_id):
     user = steen_system.search_profile(search_id=user_id)
     page_data = {"request": request, "user": user}
-    return TEMPLATE.TemplateResponse("Edit_profile.html", page_data)
+    return TEMPLATE.TemplateResponse("setting_profile.html", page_data)
 
 
-@app.put("/chat/{user_id}/{target_id}", tags="Chat", response_class=HTMLResponse)
+@app.get("/edit_profile/{user_id}", tags=["User"], response_class=HTMLResponse)
+async def edit_profile(request: Request, name, picture_profile, description, user_id):
+    user = steen_system.search_profile(search_id=user_id)
+    if name != "":
+        user.set_name(name)
+
+    if picture_profile != "":
+        user.set_picture_profile(picture_profile)
+
+    if description != "":
+        user.set_description(description)
+
+    page_data = {"request": request, "user": user}
+    return TEMPLATE.TemplateResponse("profile.html", page_data)
+
+
+@app.put("/chat/{user_id}/{target_id}", tags=["Chat"], response_class=HTMLResponse)
 async def chat_with(request: Request, user_id, target_id):
     user = steen_system.search_profile(search_id=user_id)
     target = steen_system.search_profile(search_id=target_id)
