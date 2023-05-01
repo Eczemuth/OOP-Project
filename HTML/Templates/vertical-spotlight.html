@@ -51,19 +51,20 @@
 }
 
 </style>
+
 <div class="vertical_spotlight spotlight" onclick="parent.location='product/{{product.get_id()}}'">
     <div class="image">
-        <img src='{{product.get_cover()}}'>
+        <img src='{{product_info["cover_image"]}}'>
     </div>
     <div class="footer">
         <div class="footer_text">
-            <div class="footer_content discount">-{{ product.get_discount() * 100 }}%</div>
-            <div class="footer_content price">{{ product.get_discounted_price() }} THB</div>
+            <div class="footer_content discount">-{{ product_info["discount"] * 100 }}%</div>
+            <div class="footer_content price">{{ product_info["price"] * product_info["discount"] }} THB</div>
         </div>
     </div>
     <div class="description">
         <div class="text">
-            {{ " ".join(product.get_description().split()[0:20]) + "..." }}
+            {{ " ".join(product_info["description"].split()[0:20]) + "..." }}
         </div>
     </div>
 </div>
