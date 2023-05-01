@@ -40,9 +40,8 @@ class ProductCatalog:
         return products
 
     def get_recommend_product(self):
-        all_products = []
+        product = None
         for key in self.__products_by_id:
-            all_products.append(self.__products_by_id[key])
-        all_products = all_products[::-1][0:5]
+            product = self.__products_by_id[key]
 
-        return all_products
+        return product
