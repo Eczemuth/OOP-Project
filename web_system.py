@@ -90,7 +90,6 @@ class System:
         # this will add user to self.user
         user = User(user_name, email)
         self.__add_user(user)
-        self.__current_user = user
         print("Register success")
         print(user.get_name(),user.get_id())
         return RegistStatus.SUCCESS
