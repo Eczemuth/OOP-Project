@@ -70,7 +70,7 @@ class User:
     def get_library(self):
         return self.__library
     
-    def get_purchase_hostory(self):
+    def get_purchase_history(self):
         return self.__purchase_history
     
     def get_chat(self):
@@ -83,5 +83,8 @@ class User:
         if badge != None:
             self.__badge.append(badge)
             
-    def create_order(self, product_list):
-        order = Order(product_list)
+    def create_order(self, product_list=None):
+        self.__order = Order(product_list)
+        
+    def get_order(self):
+        return self.__order
