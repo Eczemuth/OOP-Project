@@ -10,9 +10,13 @@
         <a href="/">Store</a>
         <a href="/community/all">Community</a>
         {% if user %}
-            <a href="/library/{{ user.get_id() }}">Library</a>
-            <a href="/cart/{{ user.get_id() }}">Viewcart</a>
-            <a href="/profile/{{ user.get_id() }}">Profile</a>
+            {% if is_publisher %}
+                <a style = "text-align: center;" href="/publisher">Shop</a>
+            {% else %}
+                <a href="/library">Library</a>
+            {% endif %}
+            <a href="/cart">Viewcart</a>
+            <a href="/profile">Profile</a>
         {% endif %}
     </div>
 
