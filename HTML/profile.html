@@ -59,7 +59,9 @@
                     <div class="screenshot heading">Screenshot</div>
                     <div class="friends heading">Friends</div>
                     <div class="friend_container">
-                        {% for _ in range(6) %}
+                        {% set friend_length = user.get_friend_list()|length %}
+                        {% for _ in range([friend_length,6]|min) %}
+                        {% set friend = user.get_friend_list()[_] %}
                         {% include "Templates/friend_block.html" %}
                         {% endfor %}
                     </div>

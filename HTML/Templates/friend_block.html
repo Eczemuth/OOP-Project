@@ -3,10 +3,10 @@
 </head>
 <div class="friend_block">
     <div class="profile">
-        <img src="https://avatars.akamai.steamstatic.com/7481d552fb63de33f29b9be9936ff1dafadf877f_full.jpg">
+        <img src="{{ friend.get_picture_profile() }}">
     </div>
-    <div class="name">129000soulsกูหละวะ</div>
+    <div class="name">{{ friend.get_name() }}</div>
     <div class="level_container">
-        <div class="level">24</div>
+        <div class="level">{{ friend.get_level() }}</div>
     </div>
 </div>
