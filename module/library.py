@@ -8,7 +8,7 @@ class Library:
         product = Product(product_info)
         self.__products.append(product)
 
-    def get_products(self):
+    def get_all_products(self):
         return self.__products
     
     def view_products(self):
