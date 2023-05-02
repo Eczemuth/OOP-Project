@@ -5,7 +5,7 @@ from module.library import Library
 from module.chat import Chat
 
 class User:
-    def __init__(self, name, email, profile_picture=None, level=0):
+    def __init__(self, name, email, profile_picture="https://www.tech101.in/wp-content/uploads/2018/07/blank-profile-picture.png", level=0):
         self.__name = name
         self.__email = email
         self.__id = IdGenerator.generate_id(email)
@@ -30,12 +30,21 @@ class User:
     def get_email(self):
         return self.__email
 
+    def get_profile(self):
+        return self.__profile_picture
+
+    def get_level(self):
+        return self.__level
+
+    def get_description(self):
+        return self.__description
+
     @property
     def profile_picture(self):
         return self.__profile_picture
 
     @profile_picture.setter
-    def picture_profile(self, picture):
+    def profile_picture(self, picture):
         self.__profile_picture = picture
 
     @property
