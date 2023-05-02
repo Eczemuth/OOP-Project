@@ -1,6 +1,11 @@
 from module.product import Product
 from module.user import User
 
+
+keys = ["name", "price", "os_support", "system_req",
+        "pre_vid", "cover_image", "lang_sup",
+        "age_rate", "discount", "description"]
+
 fifa_23 = {
             "name": "EA SPORTS™ FIFA 23",
             "price": 1899.00,
