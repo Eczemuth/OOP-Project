@@ -14,7 +14,7 @@
 			{% include "/Templates/community_bar.html" %}
 		</div>
 		<div class="post_container">
-			{% for post in board.get_post() %}
+			{% for post in board.get_all_post() %}
 				{% include "/Templates/community_display.html" %}
 			{% endfor %}
 		</div>
