@@ -28,6 +28,7 @@ a{
 }
 
 .bio_container .profile_pic img {
+    width: 160px;
     outline: solid 3px grey;
 }
 

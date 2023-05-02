@@ -31,8 +31,14 @@ community.add_board(all_post, artwork, news, manual)
 steam = System(product_catalog, community)
 
 # ==== register ==== #
-steam.register(user_name="Best", email="dark97975@gmail.com"
-               , password1="123Paul!", password2="123Paul!"
+steam.register(user_name="Best", email="best@gmail.com"
+               , password1="123Best!", password2="123Best!"
+               ,register_as="user")
+steam.register(user_name="Boss", email="boss@gmail.com"
+               , password1="123Boss!", password2="123Boss!"
+               ,register_as="user")
+steam.register(user_name="Bass", email="bass@gmail.com"
+               , password1="123Bass!", password2="123Bass!"
                ,register_as="user")
 
 # ==== init product ==== #
@@ -65,6 +71,7 @@ async def index(request : Request):
     print(page_data["user"])
     return TEMPLATE.TemplateResponse("index.html",page_data)
 
+# about product
 @app.get("/product/{product_id}", tags=["Product"], response_class=HTMLResponse)
 async def view_product(request : Request, product_id):
     product = steam.get_product(product_id)
@@ -93,12 +100,45 @@ async def view_product(request : Request, product_id):
     page_data = {"request" : request, "product":product, "addable":addable, "user": user}
     return TEMPLATE.TemplateResponse("product.html",page_data)
 
+@app.get("/search_product/result", tags=["Product"], response_class=HTMLResponse)
+async def search_product(request: Request, keyword=""):
+    found_products = steam.search_product(search_name=keyword)
+    print(found_products, keyword, type(keyword))
+    page_data = {"request": request, "found_products": found_products, "kw": keyword}
+    return TEMPLATE.TemplateResponse("search_product.html",page_data) # new front-end
+
+@app.get("/cart/{user_id}", tags=["Cart"], response_class=HTMLResponse)
+async def cart(request: Request, user_id):
+    user = steam.search_profile(search_id=user_id)
+    page_data = {"request": request, "user": user}
+
+    return TEMPLATE.TemplateResponse("cart.html", page_data) # new front-end
+
+@app.post("/add_to_cart/{product_id}", tags=["Cart"])
+async def add_to_cart(product_id):
+    product = steam.get_product(product_id)
+    user = steam.get_current_user()
+    if user:
+        print(">>", user.get_cart())
+        steam.add_to_cart(product, user)
+        print(">>", user.get_cart())
+    url = app.url_path_for("view_product",product_id=product_id)
+    return RedirectResponse(url=url)
+
+# about profile
 @app.get("/profile/{user_id}", tags=["User"], response_class=HTMLResponse)
 async def view_profile(request : Request, user_id):
     user = steam.search_profile(search_id = user_id)
     page_data = {"request": request, "user": user}
     return TEMPLATE.TemplateResponse("profile.html",page_data)
 
+@app.get("/search_profile/result", tags=["Profile"], response_class=HTMLResponse)
+async def search_profile(request: Request, keyword=""):
+    found_user = steam.search_profile(search_name=keyword, search_id="")
+    page_data = {"request": request, "found_user": found_user, "kw": keyword}
+    return TEMPLATE.TemplateResponse("search_profile.html",page_data) # new front-end
+
+# login register
 @app.get("/login", tags=["System"], response_class=HTMLResponse)
 async def login(request: Request, status = None):
     page_data = {"request": request}
@@ -115,7 +155,6 @@ async def verify_login(request: Request, email, password):
     else:
         redirect_url = request.url_for("login").include_query_params(status=status)
         return RedirectResponse(redirect_url)
-
 
 @app.get("/logout", tags=["System"], response_class=HTMLResponse)
 async def logout(request: Request):
@@ -148,37 +187,6 @@ async def verify_register(request: Request, register_as, user_name,email,passwor
     else:
         page_data["status"] = status
         return TEMPLATE.TemplateResponse("register.html", page_data) # new front-end
-
-@app.get("/search_product/result", tags=["Product"], response_class=HTMLResponse)
-async def search_product(request: Request, keyword=""):
-    found_products = steam.search_product(search_name=keyword)
-    print(found_products, keyword, type(keyword))
-    page_data = {"request": request, "found_products": found_products, "kw": keyword}
-    return TEMPLATE.TemplateResponse("search_product.html",page_data) # new front-end
-
-@app.get("/search_profile/result", tags=["Profile"], response_class=HTMLResponse)
-async def search_profile(request: Request, keyword=""):
-    found_user = steam.search_profile(search_name=keyword, search_id="")
-    page_data = {"request": request, "found_user": found_user, "kw": keyword}
-    return TEMPLATE.TemplateResponse("search_profile.html",page_data) # new front-end
-
-@app.get("/cart/{user_id}", tags=["Cart"], response_class=HTMLResponse)
-async def cart(request: Request, user_id):
-    user = steam.search_profile(search_id=user_id)
-    page_data = {"request": request, "user": user}
-
-    return TEMPLATE.TemplateResponse("cart.html", page_data) # new front-end
-
-@app.post("/add_to_cart/{product_id}", tags=["Cart"])
-async def add_to_cart(product_id):
-    product = steam.get_product(product_id)
-    user = steam.get_current_user()
-    if user:
-        print(">>", user.get_cart())
-        steam.add_to_cart(product, user)
-        print(">>", user.get_cart())
-    url = app.url_path_for("view_product",product_id=product_id)
-    return RedirectResponse(url=url)
 
 # ==================== Community Route ==================== #
 @app.get("/community/{board_name}",tags=["Community"], response_class=HTMLResponse)

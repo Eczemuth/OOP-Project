@@ -4,10 +4,10 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Profile</title>
 	<link rel="stylesheet" href="../Style/profile.css?v=1" >
 	<link rel="stylesheet" href="{{ url_for('Style', path='profile.css?v=1') }}" >
     <link rel="icon" type="image/png" href="../Icon/favicon.png">
+    <title>Profile</title>
 </head>
 <body>
     {% include "Templates/navbar.html" %}
@@ -15,7 +15,7 @@
         <div class="profile_header">
             <div class="bio_container">
                 <div class="profile_pic">
-                    <img src="{{ user.get_picture_profile() }}">
+                    <img src="{{ user.get_profile() }}">
                 </div>
                 <div class="info_container">
                     <div class="name">{{ user.get_name() }}</div>
