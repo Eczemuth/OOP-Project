@@ -241,7 +241,12 @@ async def purchase_history(request: Request, user_id):
     page_data = {"request": request, "user": user}
     return TEMPLATE.TemplateResponse("purchase_history.html", page_data)
 
-# ==================== Community Route ==================== #
+
+@app.get("/order_history/{order}", tags=["History"], response_class=HTMLResponse)
+async def view_order(request: Request, user_id):
+    user = steen_system.search_profile(search_id=user_id)
+    page_data = {"request": request, "user": user}
+    return TEMPLATE.TemplateResponse("order_history.html", page_data)
 
 
 @app.get("/community/{board_name}", response_class=HTMLResponse)
@@ -279,9 +284,41 @@ async def edit_profile(request: Request, name, picture_profile, description, use
     return TEMPLATE.TemplateResponse("profile.html", page_data)
 
 
-@app.put("/chat/{user_id}/{target_id}", tags=["Chat"], response_class=HTMLResponse)
-async def chat_with(request: Request, user_id, target_id):
+@app.get("/send_friend_request")
+
+@app.get("/add_friend/{user_id}/{target_id}", tags=["User"])
+async def add_friend(user_id, target_id):
+    user = steen_system.search_profile(search_id=user_id)
+    target = steen_system.search_profile(search_id=target_id)
+    user.add_friend(target)
+    target.add_friend(user)
+    # return {"user_friend": user.get_friend_list()}
+
+
+@app.get("/view_chat/{user_id}/{target_id}", tags=["Chat"], response_class=HTMLResponse)
+async def view_chat(request: Request, user_id, target_id):
     user = steen_system.search_profile(search_id=user_id)
     target = steen_system.search_profile(search_id=target_id)
     page_data = {"request": request, "user": user, "target": target}
-    return TEMPLATE.TemplateResponse("Chat.html", page_data)
+    # return TEMPLATE.TemplateResponse("Chat.html", page_data)
+    print(user.get_chat().view_message(target))
+    # return {"message_box": user.get_chat().view_message(target)}
+
+
+@app.get("/send_message/{user_id}/{target_id}", tags=["Chat"], response_class=HTMLResponse)
+async def send_message(user_id, target_id, message):
+    user = steen_system.search_profile(search_id=user_id)
+    target = steen_system.search_profile(search_id=target_id)
+    print(user, target)
+    user.get_chat().send_message(message, target, user)
+    # url = app.url_path_for("view_chat", user_id=user_id, target_id=target_id)
+    # return RedirectResponse(url=url)
+    print("send : ", user.get_chat().view_message(target))
+    print("receive : ", target.get_chat().view_message(user))
+    # return {"message_box": user.get_chat().view_message(target)}
+
+
+@app.get("/get_chat/{user_id}", tags=["Chat"])
+async def get_chat(user_id):
+    user = steen_system.search_profile(search_id=user_id)
+    print(user.get_chat().get_message_box())
