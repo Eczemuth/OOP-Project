@@ -38,6 +38,9 @@ class Product:
     def get_cover(self):
         return self.__info["cover_image"]
 
+    def get_preview_vid(self):
+        return self.__info["pre_vid"]
+
     def get_price(self):
         return self.__info['price']
 
