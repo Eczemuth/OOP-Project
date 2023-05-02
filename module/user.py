@@ -18,7 +18,7 @@ class User:
         self.__order = None
         self.__library = Library()
         self.__purchase_history = PurchaseHistory()
-        self.__chat = Chat()
+        self.__chat = Chat(self)
         self.__badge = []
 
     def __repr__(self):
@@ -33,7 +33,7 @@ class User:
     def get_id(self):
         return self.__id
 
-    def add_friend_list(self, user):
+    def add_friend(self, user):
         self.__friend_list.append(user)
         
     def get_friend_list(self):
