@@ -98,7 +98,7 @@
                 {% if recommend_product.get_price() == 0 %}
                     <div class="footer_content price">Free</div>
                 {% else %}
-                    <div class="footer_content discount">-{{ recommend_product.get_discount() }}%</div>
+                    <div class="footer_content discount">-{{ recommend_product.get_discount() * 100 }}%</div>
                     <div class="footer_content price">{{ recommend_product.get_discounted_price() }} THB</div>
                 {% endif %}
             </div>
