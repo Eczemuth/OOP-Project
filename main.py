@@ -31,7 +31,9 @@ community.add_board(all_post, artwork, news, manual)
 steam = System(product_catalog, community)
 
 # ==== register ==== #
-steam.register(user_name="Best", email="dark97975@gmail.com", password1="123Paul!", password2="123Paul!")
+steam.register(user_name="Best", email="dark97975@gmail.com"
+               , password1="123Paul!", password2="123Paul!"
+               ,register_as="user")
 
 # ==== init product ==== #
 for product_info in all_product_info:
@@ -42,7 +44,12 @@ post1 = Post(steam.get_current_user()
              ,"https://steamuserimages-a.akamaihd.net/ugc/2066632296410876700/2AFC974AEFE4A02515EF7245082FEB33A69809FA/?imw=512&&ima=fit&impolicy=Letterbox&imcolor=%23000000&letterbox=false"
              ,"Garry Mod")
 
+post2 = Post(steam.get_current_user()
+             ,"https://steamuserimages-a.akamaihd.net/ugc/2050870124875593567/D308C2111B90D97E35DB21CA80106A14CA34F12D/?imw=512&&ima=fit&impolicy=Letterbox&imcolor=%23000000&letterbox=false"
+             ,"Phoenix")
+
 all_post.add_post(post1)
+all_post.add_post(post2)
 
 @app.get("/",response_class=HTMLResponse)
 async def index(request : Request):
@@ -61,15 +68,29 @@ async def index(request : Request):
 @app.get("/product/{product_id}", tags=["Product"], response_class=HTMLResponse)
 async def view_product(request : Request, product_id):
     product = steam.get_product(product_id)
+    user = steam.get_current_user()
+    addable = bool(user)
+    if addable:
+        print(">>>",user.get_cart(), user.get_library().get_all_products())
+        if product in user.get_cart() or \
+           product in user.get_library().get_all_products():
+            addable = False
 
-    page_data = {"request" : request, "product":product, "user": steam.get_current_user()}
+    page_data = {"request" : request, "product":product, "addable":addable, "user": user}
     return TEMPLATE.TemplateResponse("product.html",page_data)
 
 @app.post("/product/{product_id}", tags=["Product"], response_class=HTMLResponse)
 async def view_product(request : Request, product_id):
     product = steam.get_product(product_id)
+    user = steam.get_current_user()
+    addable = bool(user)
+    if addable:
+        print(">>>",user.get_cart(), user.get_library().get_all_products())
+        if product in user.get_cart() or \
+           product in user.get_library().get_all_products():
+            addable = False
 
-    page_data = {"request" : request, "product":product, "user": steam.get_current_user()}
+    page_data = {"request" : request, "product":product, "addable":addable, "user": user}
     return TEMPLATE.TemplateResponse("product.html",page_data)
 
 @app.get("/profile/{user_id}", tags=["User"], response_class=HTMLResponse)
@@ -108,24 +129,24 @@ async def register(request : Request):
     return TEMPLATE.TemplateResponse("register.html",page_data) # new front-end
 
 @app.get("/verify_register", tags=["System"], response_class=HTMLResponse)
-async def verify_register(request: Request, username,email,pass1,pass2):
-    status = steam.register(user_name=username, email=email, password1=pass1, password2=pass2)
+async def verify_register(request: Request, register_as, user_name,email,password1,password2):
+    status = steam.register(user_name=user_name, email=email, password1=password1, password2=password2,register_as=register_as)
 
     page_data = {"request": request}
-    if status == LoginStatus.SUCCES:
+    if status == RegistStatus.SUCCESS:
         # this is the same as index function maybe find some alt
         recommend_product = steam.get_recommend_product()
         discount_product = steam.get_discount_product()
 
         page_data["discount_product"] = discount_product
         page_data["recommend_product"] = recommend_product
-        page_data["user"] = None
+        page_data["user"] = steam.get_current_user()
 
         return TEMPLATE.TemplateResponse("index.html", page_data)
         # end index function
 
     else:
-        page_data["register_status"] = status
+        page_data["status"] = status
         return TEMPLATE.TemplateResponse("register.html", page_data) # new front-end
 
 @app.get("/search_product/result", tags=["Product"], response_class=HTMLResponse)
@@ -134,6 +155,12 @@ async def search_product(request: Request, keyword=""):
     print(found_products, keyword, type(keyword))
     page_data = {"request": request, "found_products": found_products, "kw": keyword}
     return TEMPLATE.TemplateResponse("search_product.html",page_data) # new front-end
+
+@app.get("/search_profile/result", tags=["Profile"], response_class=HTMLResponse)
+async def search_profile(request: Request, keyword=""):
+    found_user = steam.search_profile(search_name=keyword, search_id="")
+    page_data = {"request": request, "found_user": found_user, "kw": keyword}
+    return TEMPLATE.TemplateResponse("search_profile.html",page_data) # new front-end
 
 @app.get("/cart/{user_id}", tags=["Cart"], response_class=HTMLResponse)
 async def cart(request: Request, user_id):
@@ -157,21 +184,37 @@ async def add_to_cart(product_id):
 @app.get("/community/{board_name}",tags=["Community"], response_class=HTMLResponse)
 async def community(request: Request, board_name= "all"):
     page_data = {"request": request}
-
+    user = steam.get_current_user()
     board = steam.get_board(board_name)
 
     page_data["board"] = board
-    print(board)
+    page_data["user"] = user
 
     return TEMPLATE.TemplateResponse("community.html", page_data)
 
 @app.get("/add_post",tags=["Community"], response_class=HTMLResponse)
-async def community(request: Request):
+async def add_post(request: Request):
     page_data = {"request": request}
 
     return TEMPLATE.TemplateResponse("add_post.html", page_data)
 
 @app.get("/submit_post",tags=["Community"], response_class=HTMLResponse)
-async def community(request: Request):
-    url = app.url_path_for("view_product")
+async def submit_post(request: Request, board_name, image, game_name):
+    post = Post(steam.get_current_user(), image, game_name)
+    board = steam.get_board(board_name)
+    board.add_post(post)
+    url = app.url_path_for("community",board_name=board_name)
     return RedirectResponse(url=url)
+
+@app.get("/rate_up/{board_name}/{post_id}",tags=["Community"], response_class=HTMLResponse)
+async def rate_up(board_name, post_id):
+    user = steam.get_current_user()
+    board = steam.get_board(board_name)
+    post = board.get_post(post_id)
+    if post and user:post.rate_up(user)
+    url = app.url_path_for("community",board_name=board_name)
+    return RedirectResponse(url=url)
+
+
+
+
