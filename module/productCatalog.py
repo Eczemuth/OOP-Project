@@ -7,8 +7,9 @@ class ProductCatalog:
         return self.__products_by_id
 
     def add_product(self, product):
-        self.__products_by_id[product.get_id()] = product
-        self.__products_by_name[product.get_name()] = product
+        if product not in self.__products_by_id and product not in self.__products_by_name:
+            self.__products_by_id[product.get_id()] = product
+            self.__products_by_name[product.get_name()] = product
 
     def modify_product(self, new_info, product):
         product.change_info(new_info)
