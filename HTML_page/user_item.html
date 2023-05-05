@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>My Steam Badges</title>
+    <style>
+        body {
+            background-color: #212121;
+            font-family: Arial, sans-serif;
+            color: #FFF;
+            margin: 0;
+        }
+        
+        #header {
+            background-color: #171A21;
+            height: 60px;
+            display: flex;
+            align-items: center;
+            padding: 0 20px;
+        }
+        
+        #header h1 {
+            margin: 0;
+            font-size: 24px;
+        }
+        
+        #main {
+            display: flex;
+            flex-wrap: wrap;
+            margin: 30px;
+        }
+        
+        .badge {
+            background-color: #32363E;
+            border-radius: 5px;
+            width: 150px;
+            height: 150px;
+            margin: 10px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .badge img {
+            max-width: 100%;
+            max-height: 100%;
+            object-fit: contain;
+            margin-bottom: 10px;
+        }
+        
+        .badge h2 {
+            font-size: 18px;
+            margin: 0;
+        }
+        
+        .badge p {
+            font-size: 14px;
+            margin: 0;
+        }
+        
+        .badge:hover {
+            background-color: #1E90FF;
+        }
+    </style>
+</head>
+<body>
+    <div id="header">
+        <h1>My Steam Badges</h1>
+    </div>
+    <div id="main">
+        <div class="badge">
+            <img src="https://steamcdn-a.akamaihd.net/steamcommunity/public/images/badges/01_promoter.png">
+            <h2>Promoter</h2>
+            <p>1,000 XP</p>
+        </div>
+        <div class="badge">
+            <img src="https://steamcdn-a.akamaihd.net/steamcommunity/public/images/badges/02_investor.png">
+            <h2>Investor</h2>
+            <p>2,000 XP</p>
+        </div>
+        <div class="badge">
+            <img src="https://steamcdn-a.akamaihd.net/steamcommunity/public/images/badges/03_trader.png">
+            <h2>Trader</h2>
+            <p>5,000 XP</p>
+        </div>
+        <div class="badge">
+            <img src="https://steamcdn-a.akamaihd.net/steamcommunity/public/images/badges/04_leader.png">
+            <h2>Leader</h2>
+            <p>10,000 XP</p>
+        </div>
+        <div class="badge">
+            <img src="https://steamcdn-a.akamaihd.net/steamcommunity/public/images/badges/05_mogul.png">
+            <h2>Mogul</h2>
+            <p>25,000 XP</p>
+        </div>
+    </div>
+</body>
+</html>

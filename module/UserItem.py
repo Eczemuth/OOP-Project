@@ -30,16 +30,6 @@ class Factory:
     self.item_creator = ItemCreator()
     self.badge_creator = BadgeCreator()
 
-  def verify_condition(self):
-    if self.user.get_level() > 9:
-      self.send_badge('name', 'picture', 'description', 'status')
-      return "badge sent"
-   
-    elif self.user.get_level() > 99:
-      self.send_item('name', 'picture', 'description', 'status', 'amount')
-      return "item sent"
-    return "nothing were sent"  
-
   def send_item(self, name, picture, description, status, amount, got_date=None):
     item = self.item_creator.create_item(name, picture, description, status, amount, got_date)
     self.user.add_item(item)
